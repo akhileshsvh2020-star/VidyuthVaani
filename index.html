@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#123b38" />
+    <meta
+      name="description"
+      content="VidyuthVaani citizen electricity status, fault reporting, bill insights and subsidy guidance"
+    />
+    <title>VidyuthVaani | విద్యుత్ వాణి</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-noise" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="VidyuthVaani home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>
+          <strong>VidyuthVaani</strong>
+          <small>విద్యుత్ వాణి</small>
+        </span>
+      </a>
+
+      <div class="topbar-actions">
+        <button class="language-toggle" id="languageToggle" type="button" aria-label="Change language">
+          <span class="active">EN</span><span>తె</span>
+        </button>
+        <button class="voice-button" id="voiceButton" type="button" aria-label="Open voice assistant">
+          <span class="voice-dot" aria-hidden="true"></span>
+          <span data-copy="voice">Ask Vaani</span>
+        </button>
+        <button class="avatar-button" id="roleButton" type="button" aria-label="Switch user role">
+          <span id="avatarInitials">LK</span>
+          <span class="role-copy">
+            <strong id="roleName">Citizen</strong>
+            <small id="roleSwitchHint">Switch role</small>
+          </span>
+        </button>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <nav id="mainNav">
+          <button class="nav-item active" type="button" data-view="home">
+            <span class="nav-icon" aria-hidden="true">⌂</span><span data-copy="navHome">Overview</span>
+          </button>
+          <button class="nav-item" type="button" data-view="report">
+            <span class="nav-icon" aria-hidden="true">!</span><span data-copy="navReport">Report a fault</span>
+          </button>
+          <button class="nav-item" type="button" data-view="map">
+            <span class="nav-icon" aria-hidden="true">⌖</span><span data-copy="navMap">PowerPulse map</span>
+          </button>
+          <button class="nav-item" type="button" data-view="bill">
+            <span class="nav-icon" aria-hidden="true">▤</span><span data-copy="navBill">Bill insights</span>
+          </button>
+          <button class="nav-item" type="button" data-view="schemes">
+            <span class="nav-icon" aria-hidden="true">✦</span><span data-copy="navSchemes">Subsidy schemes</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-help">
+          <span class="help-symbol" aria-hidden="true">1912</span>
+          <p data-copy="emergencyLabel">Electrical emergency?</p>
+          <a href="tel:1912"><strong data-copy="call1912">Call helpline 1912</strong></a>
+        </div>
+      </aside>
+
+      <main id="citizenApp" class="main-content">
+        <section class="view active" id="homeView" data-view-panel="home">
+          <div class="welcome-row">
+            <div>
+              <p class="eyebrow" data-copy="areaLabel">YOUR AREA · PEDAKAKANI</p>
+              <h1><span data-copy="greeting">Namaskaram, Lokesh</span><span class="wave">✦</span></h1>
+              <p class="lead" data-copy="greetingSub">Here is the electricity status around you.</p>
+            </div>
+            <div class="last-updated"><span></span><span data-copy="updatedNow">Updated just now</span></div>
+          </div>
+
+          <section class="power-status-card">
+            <div class="status-illustration" aria-hidden="true">
+              <span class="orbit one"></span><span class="orbit two"></span>
+              <span class="power-glyph">ϟ</span>
+            </div>
+            <div class="status-copy">
+              <p class="eyebrow light" data-copy="localStatus">LOCAL GRID STATUS</p>
+              <h2 data-copy="powerAvailable">Power is available</h2>
+              <p data-copy="areaNormal">No active outage has been reported in your area.</p>
+              <dl>
+                <div><dt data-copy="reportsNearby">Nearby reports</dt><dd id="nearbyReportCount">0</dd></div>
+                <div><dt data-copy="gridConfidence">Grid confidence</dt><dd id="gridConfidence">96%</dd></div>
+              </dl>
+            </div>
+            <button class="text-button light" type="button" data-go="map">
+              <span data-copy="openMap">Open live map</span><span aria-hidden="true">↗</span>
+            </button>
+          </section>
+
+          <div class="dashboard-grid">
+            <section class="panel quick-actions-panel">
+              <div class="section-heading">
+                <div><p class="eyebrow" data-copy="needHelp">NEED HELP?</p><h2 data-copy="quickActions">Quick actions</h2></div>
+              </div>
+              <div class="quick-actions">
+                <button class="quick-action danger" type="button" data-go="report">
+                  <span class="action-symbol">!</span>
+                  <span><strong data-copy="reportFault">Report a fault</strong><small data-copy="photoGps">Add photo and GPS</small></span>
+                  <span aria-hidden="true">›</span>
+                </button>
+                <button class="quick-action" type="button" data-go="map">
+                  <span class="action-symbol">⌖</span>
+                  <span><strong data-copy="checkOutages">Check outages</strong><small data-copy="liveCommunityMap">Live community map</small></span>
+                  <span aria-hidden="true">›</span>
+                </button>
+                <button class="quick-action" type="button" data-go="bill">
+                  <span class="action-symbol">▤</span>
+                  <span><strong data-copy="scanBill">Scan your bill</strong><small data-copy="usageSavings">Usage and savings</small></span>
+                  <span aria-hidden="true">›</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="panel tracking-panel">
+              <div class="section-heading">
+                <div><p class="eyebrow" data-copy="voltAlert">VOLTALERT</p><h2 data-copy="recentReports">Your recent reports</h2></div>
+                <button class="text-button" type="button" data-go="report" data-copy="newReport">New report</button>
+              </div>
+              <div id="recentReportsList" class="recent-reports-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="reportView" data-view-panel="report">
+          <div class="page-heading">
+            <div><p class="eyebrow" data-copy="voltAlert">VOLTALERT</p><h1 data-copy="reportElectricalFault">Report an electrical fault</h1><p data-copy="reportSub">Send location and evidence directly to the operator dashboard.</p></div>
+            <div class="step-badge"><span>01</span><small data-copy="takesTwoMin">Takes about 2 minutes</small></div>
+          </div>
+
+          <form id="faultForm" class="form-layout">
+            <section class="panel form-panel">
+              <div class="field-group">
+                <label data-copy="faultType">What happened?</label>
+                <div class="choice-grid" id="faultChoices">
+                  <button class="choice active" type="button" data-category="Power outage"><span>ϟ</span><strong data-copy="powerOutage">Power outage</strong></button>
+                  <button class="choice" type="button" data-category="Fallen wire"><span>⌁</span><strong data-copy="fallenWire">Fallen wire</strong></button>
+                  <button class="choice" type="button" data-category="Fire / sparks"><span>✹</span><strong data-copy="fireSparks">Fire or sparks</strong></button>
+                  <button class="choice" type="button" data-category="Low voltage"><span>↯</span><strong data-copy="lowVoltage">Low voltage</strong></button>
+                </div>
+                <input type="hidden" id="faultCategory" value="Power outage" />
+              </div>
+
+              <div class="two-column-fields">
+                <div class="field-group">
+                  <label for="faultLocation" data-copy="location">Location</label>
+                  <div class="input-with-action">
+                    <input id="faultLocation" name="location" value="Pedakakani, Guntur" required />
+                    <button type="button" id="detectLocation" data-copy="useGps">Use GPS</button>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="faultPhone" data-copy="phoneNumber">Phone number</label>
+                  <input id="faultPhone" name="phone" type="tel" inputmode="numeric" placeholder="+91 98765 43210" required />
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="faultDescription" data-copy="describeProblem">Describe the problem</label>
+                <textarea id="faultDescription" name="description" rows="4" placeholder="Landmark, when it started, and anything unsafe nearby…" data-copy-placeholder="descriptionPlaceholder" required></textarea>
+              </div>
+
+              <div class="field-group">
+                <label for="faultPhoto" data-copy="photoEvidence">Photo evidence</label>
+                <label class="upload-zone" for="faultPhoto" id="faultUploadZone">
+                  <input id="faultPhoto" type="file" accept="image/*" capture="environment" />
+                  <span class="upload-icon">＋</span>
+                  <strong data-copy="addPhoto">Add a photo</strong>
+                  <small data-copy="photoOptional">Camera or gallery · optional</small>
+                </label>
+              </div>
+
+              <button class="primary-button" type="submit"><span data-copy="submitReport">Submit fault report</span><span aria-hidden="true">→</span></button>
+            </section>
+
+            <aside class="form-aside">
+              <section class="safety-card">
+                <span class="safety-icon">!</span>
+                <div><strong data-copy="safetyFirst">Safety first</strong><p data-copy="safetyCopy">Stay at least 10 metres away from fallen wires, sparks, or damaged transformers.</p></div>
+              </section>
+              <section class="mini-map-card" aria-label="Selected report location">
+                <div class="mini-map-grid"></div><span class="map-road horizontal"></span><span class="map-road vertical"></span><span class="location-pin">!</span>
+                <div class="mini-map-label"><strong>Pedakakani</strong><small data-copy="locationAttached">Location attached</small></div>
+              </section>
+              <p class="privacy-note" data-copy="privacyNote">Your contact details are visible only to the assigned electricity operator.</p>
+            </aside>
+          </form>
+        </section>
+
+        <section class="view" id="mapView" data-view-panel="map">
+          <div class="page-heading map-heading">
+            <div><p class="eyebrow" data-copy="powerPulse">POWERPULSE</p><h1 data-copy="liveOutageMap">Live outage map</h1><p data-copy="mapSub">Community reports grouped by village and pincode.</p></div>
+            <div class="map-report-buttons">
+              <button class="outage-button" id="noPowerButton" type="button"><span></span><span data-copy="noPower">No power</span></button>
+              <button class="restored-button" id="restoredButton" type="button"><span></span><span data-copy="powerRestored">Power restored</span></button>
+            </div>
+          </div>
+
+          <section class="map-stage">
+            <div class="map-canvas" id="powerMap">
+              <div class="map-grid"></div>
+              <span class="river"></span>
+              <span class="road road-a"></span><span class="road road-b"></span><span class="road road-c"></span>
+              <span class="place-label place-one">Pedakakani</span><span class="place-label place-two">Namburu</span><span class="place-label place-three">Mangalagiri</span>
+              <button class="map-cluster safe" style="--x: 38%; --y: 43%" type="button"><span id="mapMainCount">4</span><small>reports</small></button>
+              <button class="map-cluster warning" style="--x: 72%; --y: 28%" type="button"><span>12</span><small>reports</small></button>
+              <button class="map-cluster low" style="--x: 62%; --y: 70%" type="button"><span>2</span><small>reports</small></button>
+              <div class="you-marker" style="--x: 44%; --y: 55%"><span></span><small data-copy="youAreHere">You are here</small></div>
+              <div class="map-legend"><span><i class="high"></i><b data-copy="activeOutage">Active outage</b></span><span><i class="medium"></i><b data-copy="someReports">Some reports</b></span><span><i class="normal"></i><b data-copy="normalSupply">Normal supply</b></span></div>
+            </div>
+            <aside class="map-detail-panel">
+              <p class="eyebrow" data-copy="selectedArea">SELECTED AREA</p><h2>Pedakakani</h2><p class="area-code">522509 · Guntur</p>
+              <div class="confidence-meter"><span><i id="confidenceBar"></i></span><strong id="mapConfidence">32%</strong><small data-copy="outageConfidence">outage confidence</small></div>
+              <div class="map-stats"><div><strong id="noPowerCount">4</strong><small data-copy="noPowerReports">No-power reports</small></div><div><strong id="restoredCount">1</strong><small data-copy="restoredReports">Restored reports</small></div></div>
+              <div class="activity-list" id="mapActivity"></div>
+            </aside>
+          </section>
+        </section>
+
+        <section class="view" id="billView" data-view-panel="bill">
+          <div class="page-heading">
+            <div><p class="eyebrow" data-copy="billInsights">BILL INSIGHTS</p><h1 data-copy="understandBill">Understand your electricity bill</h1><p data-copy="billSub">Upload a bill or enter the values to see tariff and usage insights.</p></div>
+          </div>
+          <div class="bill-layout">
+            <section class="panel bill-upload-panel">
+              <label class="bill-dropzone" for="billPhoto" id="billDropzone">
+                <input id="billPhoto" type="file" accept="image/*,.pdf" />
+                <span class="scan-frame"><i></i><i></i><i></i><i></i><b>▤</b></span>
+                <strong data-copy="uploadBill">Upload your electricity bill</strong>
+                <small data-copy="billFormats">Photo or PDF · maximum 10 MB</small>
+                <em data-copy="chooseFile">Choose file</em>
+              </label>
+              <div class="or-divider"><span data-copy="orEnter">OR ENTER MANUALLY</span></div>
+              <form id="billForm" class="bill-fields">
+                <div class="field-group"><label for="consumerNumber" data-copy="consumerNumber">Consumer number</label><input id="consumerNumber" placeholder="e.g. 1122334455" /></div>
+                <div class="field-group"><label for="billUnits" data-copy="unitsConsumed">Units consumed</label><input id="billUnits" type="number" min="0" value="182" required /></div>
+                <div class="field-group"><label for="billAmount" data-copy="billAmount">Bill amount (₹)</label><input id="billAmount" type="number" min="0" value="786" required /></div>
+                <button class="primary-button" type="submit"><span data-copy="analyseBill">Analyse my bill</span><span>→</span></button>
+              </form>
+            </section>
+            <section class="insights-column" id="billResults">
+              <article class="insight-hero">
+                <p class="eyebrow light" data-copy="thisMonth">THIS MONTH</p>
+                <div class="usage-ring" style="--value: 73"><span><strong id="usageUnits">182</strong><small data-copy="units">units</small></span></div>
+                <div><h2 id="usageHeadline">18 units before the next slab</h2><p id="usageExplanation">Your current consumption is inside the 101–200 unit tariff slab.</p></div>
+              </article>
+              <div class="insight-cards">
+                <article><span class="insight-icon">₹</span><p data-copy="estimatedRate">Estimated average rate</p><strong id="averageRate">₹4.32 / unit</strong></article>
+                <article><span class="insight-icon">↘</span><p data-copy="savingTip">Potential saving</p><strong id="savingEstimate">₹94 / month</strong></article>
+              </div>
+              <article class="appliance-panel panel">
+                <div class="section-heading"><div><p class="eyebrow" data-copy="usageEstimate">ESTIMATED USAGE</p><h2 data-copy="wherePowerGoes">Where your power may go</h2></div></div>
+                <div class="appliance-bars" id="applianceBars"></div>
+              </article>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="schemesView" data-view-panel="schemes">
+          <div class="page-heading">
+            <div><p class="eyebrow" data-copy="schemeNavigator">SCHEME NAVIGATOR</p><h1 data-copy="benefitsMayQualify">Benefits you may qualify for</h1><p data-copy="schemeSub">Answer two questions to find electricity support schemes.</p></div>
+          </div>
+          <div class="scheme-layout">
+            <form class="panel eligibility-form" id="schemeForm">
+              <div class="question-number">01</div>
+              <div class="field-group"><label for="consumerCategory" data-copy="consumerCategory">Consumer category</label><select id="consumerCategory"><option value="domestic">Domestic household</option><option value="bpl">BPL household</option><option value="agriculture">Agricultural connection</option></select></div>
+              <div class="question-number">02</div>
+              <div class="field-group"><label for="monthlyUnits" data-copy="averageUnits">Average monthly units</label><input id="monthlyUnits" type="number" min="0" value="182" /></div>
+              <button class="primary-button" type="submit"><span data-copy="checkEligibility">Check eligibility</span><span>→</span></button>
+              <p class="form-disclaimer" data-copy="schemeDisclaimer">Results are indicative and require final verification by the relevant authority.</p>
+            </form>
+            <section class="scheme-results" id="schemeResults"></section>
+          </div>
+        </section>
+      </main>
+
+      <main id="operatorApp" class="main-content operator-app" hidden>
+        <section class="operator-header">
+          <div><p class="eyebrow">DISCOM OPERATIONS · GUNTUR EAST</p><h1>Incident command centre</h1><p>Live complaints, field assignments and local grid signals.</p></div>
+          <div class="operator-live"><span></span>Systems online</div>
+        </section>
+        <section class="operator-metrics">
+          <article><p>Open incidents</p><strong id="openIncidentMetric">3</strong><small>1 needs assignment</small></article>
+          <article><p>Average response</p><strong>18m</strong><small>4m faster today</small></article>
+          <article><p>Resolved today</p><strong id="resolvedMetric">12</strong><small>92% within SLA</small></article>
+          <article class="metric-alert"><p>Grid watch</p><strong>2 zones</strong><small>Community signal elevated</small></article>
+        </section>
+        <div class="operator-grid">
+          <section class="panel incident-panel">
+            <div class="section-heading"><div><p class="eyebrow">VOLTALERT QUEUE</p><h2>Active incidents</h2></div><button class="filter-button" type="button">All zones ▾</button></div>
+            <div class="incident-table-wrap"><table class="incident-table"><thead><tr><th>Reference</th><th>Fault</th><th>Location</th><th>Status</th><th>Assigned to</th><th></th></tr></thead><tbody id="incidentTableBody"></tbody></table></div>
+          </section>
+          <aside class="operator-side">
+            <section class="panel grid-health">
+              <div class="section-heading"><div><p class="eyebrow">POWERPULSE</p><h2>Grid health</h2></div></div>
+              <div class="zone-row"><span class="zone-dot high"></span><div><strong>Namburu</strong><small>82% outage confidence</small></div><b>12</b></div>
+              <div class="zone-row"><span class="zone-dot medium"></span><div><strong>Pedakakani</strong><small id="operatorPedakakaniConfidence">32% outage confidence</small></div><b id="operatorPedakakaniReports">4</b></div>
+              <div class="zone-row"><span class="zone-dot normal"></span><div><strong>Mangalagiri</strong><small>18% outage confidence</small></div><b>2</b></div>
+            </section>
+            <section class="dispatch-card"><p>FIELD TEAM STATUS</p><strong>4 of 6 teams available</strong><div><span style="--fill: 67%"></span></div><small>Next team expected at 16:40</small></section>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="roleModal" hidden>
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="roleModalTitle">
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">×</button>
+        <p class="eyebrow">CHANGE WORKSPACE</p><h2 id="roleModalTitle">How are you using VidyuthVaani?</h2>
+        <button class="role-option active" type="button" data-role="citizen"><span>LK</span><div><strong>Citizen app</strong><small>Report faults, check outages and bills</small></div><b>✓</b></button>
+        <button class="role-option" type="button" data-role="operator"><span>OP</span><div><strong>DISCOM operator</strong><small>Triage incidents and dispatch field teams</small></div><b>→</b></button>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="voiceModal" hidden>
+      <section class="modal-card voice-modal" role="dialog" aria-modal="true" aria-labelledby="voiceModalTitle">
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">×</button>
+        <div class="voice-orb"><span></span><span></span><i></i></div>
+        <p class="eyebrow">VAANI VOICE ASSISTANT</p><h2 id="voiceModalTitle">What can I help you with?</h2><p>Try saying “Report a power cut” or “Show my latest complaint”.</p>
+        <div class="voice-transcript" id="voiceTranscript">Listening…</div>
+        <button class="primary-button" type="button" id="voiceDemoButton">Try a sample command</button>
+      </section>
+    </div>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+  </body>
+</html>
